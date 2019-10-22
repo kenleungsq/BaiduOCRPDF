@@ -41,8 +41,8 @@ namespace BaiduOCR
             // 带参数调用通用文字识别, 图片参数为本地图片
             var result = client.Accurate(image, options);
 
-            //Console.WriteLine(result);
-            //Console.Read();
+            Console.WriteLine(result);
+            Console.Read();
 
             //解释Json
             Root rt = JsonConvert.DeserializeObject<Root>(result.ToString());
@@ -55,8 +55,8 @@ namespace BaiduOCR
             {
                 //要定位left筛选出专业代号和专业名称，只测试过右半部分，有时会误选专业说明，是IEnumerable
                 var majors = (from t in rt.words_result
-                    where t.location.left > 40 && t.location.left < 100
-                    select t).ToList();
+                    where t.location.left > 0 && t.location.left < 250 && Regex.IsMatch(t.words, @"^\d{2}\D")
+                              select t).ToList();
 
                 //要定位left筛选出院校代号和院校名称，只测试过右半部分,是IEnumerable
                 var colleges = (from t in rt.words_result
@@ -75,8 +75,8 @@ namespace BaiduOCR
                 {
                     //要left及与专业名称差不多高度的top定位，筛选出招生人数、学制和学费
                     string majorNum = (from t in rt.words_result
-                        where Math.Abs(t.location.top - majors[i].location.top) < 40 && t.location.left > 600
-                        select t.words).FirstOrDefault();
+                        where Math.Abs(t.location.top - majors[i].location.top) < 40 && t.location.left > 600 
+                                       select t.words).OrderBy(wordsResultItem => wordsResultItem.Length).LastOrDefault();
 
                     var college = (from c in colleges
                         where c.location.top - majors[i].location.top < 0
@@ -116,7 +116,7 @@ namespace BaiduOCR
             else if (path.Contains("left"))
             {
                 var majors = (from t in rt.words_result
-                    where t.location.left >= 210 && t.location.left <= 250
+                    where t.location.left > 0 && t.location.left <= 250 && Regex.IsMatch(t.words,@"^\d{2}\D")
                     select t).ToList();
 
                 //要定位left筛选出院校代号和院校名称，只适用左半部分,是IEnumerable
@@ -134,7 +134,7 @@ namespace BaiduOCR
                     //要left及与专业名称差不多高度的top定位，筛选出招生人数、学制和学费
                     string majorNum = (from t in rt.words_result
                                        where Math.Abs(t.location.top - majors[i].location.top) < 40 && t.location.left > 600
-                                       select t.words).FirstOrDefault();
+                                       select t.words).OrderBy(wordsResultItem => wordsResultItem.Length).LastOrDefault();
 
                     var college = (from c in colleges
                                    where c.location.top - majors[i].location.top < 0
@@ -179,21 +179,6 @@ namespace BaiduOCR
         }
     }
 
-    public class Models
-    {
-        public string MajorName { get; set; }
-        public string MajorNum { get; set; }
-        public string CollegeName { get; set; }
-        public string CollegeNum { get; set; }
-
-        public Models(string majorName, string majorNum, string collegeName, string collegeNum)
-        {
-            MajorName = majorName;
-            MajorNum = majorNum;
-            CollegeName = collegeName;
-            CollegeNum = collegeNum;
-        }
-    }
     public class Location
     {
         /// <summary>
