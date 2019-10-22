@@ -78,6 +78,7 @@ namespace BaiduOCR
             sw.Close();
 
             //ImageHandle.Qie(@"F:\OneDrive\工作-DESKTOP-HA9E9C4\pdf转图像\河北", @"F:\OneDrive\工作-DESKTOP-HA9E9C4\pdf转图像\河北\1");
+            //add one more comment
         }
     }
 }
