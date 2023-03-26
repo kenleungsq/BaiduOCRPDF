@@ -12,8 +12,8 @@ namespace BaiduOCR
     {
         // 设置APPID/AK/SK
         static string APP_ID = "你的 App ID";
-        static string API_KEY = "n47iC4QO7HztPD26BiDE6vKE";
-        static string SECRET_KEY = "St5KQACXpqDacqIQxoHITWbCDuuTGmYn";
+        static string API_KEY = "";
+        static string SECRET_KEY = "";
         static Baidu.Aip.Ocr.Ocr client = new Baidu.Aip.Ocr.Ocr(API_KEY, SECRET_KEY) { Timeout = 60000 };
         // 修改超时时间
 
