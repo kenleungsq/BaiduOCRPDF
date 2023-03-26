@@ -22,7 +22,7 @@ namespace BaiduOCR
             for (int i = 25; i < 26; i++)
             {
                 //BaiDuOcr.Run(@"F:\OneDrive\工作-DESKTOP-HA9E9C4\pdf转图像\河北\1\" + i + "left.png", models);
-                BaiDuOcr.Run(@"F:\OneDrive\工作-DESKTOP-HA9E9C4\pdf转图像\河北\1\" + i + "right.png", models);
+                BaiDuOcr.Run(@"F:\OneDrive\工作-\pdf转图像\河北\1\" + i + "right.png", models);
 
                 Console.WriteLine(i);
             }
@@ -69,7 +69,7 @@ namespace BaiduOCR
               
             }
 
-            StreamWriter sw = new StreamWriter(@"F:\OneDrive\工作-DESKTOP-HA9E9C4\pdf转图像\河北\1.csv", true, Encoding.UTF8);
+            StreamWriter sw = new StreamWriter(@"F:\OneDrive\工作-\pdf转图像\河北\1.csv", true, Encoding.UTF8);
             foreach (var zsjh in zsjhs)
             {
                 sw.Write(zsjh.MajorName + "," + zsjh.Persons + "," + zsjh.XueNian + "," + zsjh.Fee + "," + zsjh.CollegeName + "," + zsjh.CollegeNum + "\r\n");
